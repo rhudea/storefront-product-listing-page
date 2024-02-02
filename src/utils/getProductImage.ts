@@ -42,7 +42,15 @@ const getProductImageURL = (images: ProductViewMedia[]): string => {
     imageTypes.main ??
     '';
 
-  return imageUrl ? `${protocol}//${imageUrl}` : '';
+  // DG fix
+  if (imageUrl) {
+      const imgUrl = new URL(`${protocol}//${imageUrl}`);
+      imgUrl.host = 'edge-fr.dolce-gusto.com';
+      imgUrl.pathname = imgUrl.pathname.replace('/ndgfredge', '');
+      return imgUrl.href;
+  }
+
+  return '';
 };
 
 export { getProductImageURL };
